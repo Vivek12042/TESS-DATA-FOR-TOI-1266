@@ -1,0 +1,21 @@
+pip install lightkurve
+%matplotlib inline
+import lightkurve as lk
+import matplotlib.pyplot as plt
+search_result = lk.search_targetpixelfile('TOI-1266')
+search_result
+search_result[13]
+tpf_file = search_result[13].download(quality_bitmask='default')
+tpf_file
+%matplotlib inline
+tpf_file.plot();
+ // light curve
+lc = tpf_file.to_lightcurve(aperture_mask=tpf_file.pipeline_mask)
+lc
+%matplotlib inline
+lc.plot();
+flat_lc = lc.flatten(window_length=401)
+flat_lc.plot();
+// time period and  epoch_time for TIO-1266 is 10.895,2459649.7512990
+folded_lc = flat_lc.fold(period=	10.895,  epoch_time=2459649.7512990)
+folded_lc.plot();
